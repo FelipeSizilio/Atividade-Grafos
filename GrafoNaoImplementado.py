@@ -152,6 +152,7 @@ def busca_por_largura_menor_caminho(grafo, inicio, destino):
                 return
             if vizinho not in fila and vizinho not in visitados:
                 fila.append(vizinho)
+            
 #     1. Inserir a estrutura com vértice inicial e caminho na fila
 # 2. Iniciar a lista de visitados vazia
 # 3. Enquanto a fila não estiver vazia:
@@ -167,6 +168,50 @@ def busca_por_largura_menor_caminho(grafo, inicio, destino):
 # vizinho e caminho atualizado na Fila
 # 4. Retornar vazio
 
+#1. Inserir a estrutura com vértice inicial e Pai vazio na fila
+
+#2. Iniciar a lista de visitados vazia
+#3. Enquanto a Pilha não estiver vazia:
+#a. Retirar o item da Pilha
+#b. Marcar vértice do item como visitado
+#c. Obter os vizinhos do vértice
+#d. Para cada vizinho:
+#i. Verificar se o vizinho não está na pilha
+#ii. Verificar se o vizinho já não foi visitado
+#1. Caso falso para os dois:
+#. adicionar na pilha com o vértice atual como pai
+#. se não:
+#a. caso o vizinho não seja o pai:
+#i. ciclo foi detectado
+#. Nenhum ciclo detectado
+def busca_por_profundidade(grafo, inicio):
+    pilha = []
+    visitados = []
+    
+    pilha.append(inicio)
+    print(f"\nOrdem de visitação a partir do vértice {inicio}:")
+    
+    while pilha != []:
+        vertice_atual = pilha.pop()
+        print("\nBuscando vizinhos do vértice:", vertice_atual)
+        
+        if vertice_atual not in visitados:
+            visitados.append(vertice_atual)
+            vizinhos_atual = vizinhos(grafo, vertice_atual)
+            
+            print(f"\nVizinhos encontrados: {vizinhos_atual}")
+            
+        
+            for vizinho in reversed(vizinhos_atual): 
+                if vizinho not in pilha and vizinho not in visitados:
+                    pilha.append(vizinho)
+                    
+            print("\nPilha atual:", pilha)
+            print("\nVértices visitados até o momento:", visitados)
+            
+    return visitados
+
+
 
 
 def main():
@@ -179,7 +224,7 @@ def main():
         direcionado = True
 
     while True:
-        caso = int(input("\nEscolha a ação que deseja realizar:\n1 - Mostrar o Grafo\n2 - Inserir vértice\n3 - Inserir aresta\n4 - Remover vértice\n5 - Remover aresta\n6 - Verificar existência de aresta\n7 - Calcular grau dos vértices\n8 - Verificar percurso válido\n9 - Listar vizinhos do vértice\n10 - Busca por largura\n11 - Busca por menor caminho\n0 - Sair\n"))
+        caso = int(input("\nEscolha a ação que deseja realizar:\n1 - Mostrar o Grafo\n2 - Inserir vértice\n3 - Inserir aresta\n4 - Remover vértice\n5 - Remover aresta\n6 - Verificar existência de aresta\n7 - Calcular grau dos vértices\n8 - Verificar percurso válido\n9 - Listar vizinhos do vértice\n10 - Busca por largura\n11 - Busca por menor caminho\n12 - Busca por profundidade\n0 - Sair\n"))
         match caso:
             case 1:
                 exibir_grafo(grafo)
@@ -230,6 +275,10 @@ def main():
                 inicio = input("\nDigite o vértice de início da busca pelo menor caminho: ")
                 destino = input("Digite o vértice de destino da busca pelo menor caminho: ")
                 busca_por_largura_menor_caminho(grafo, inicio, destino)
+            case 12:
+                inicio = input("\nDigite o vértice de início da busca por profundidade: ")
+                busca_por_profundidade(grafo, inicio)
+
             case 0:
                 break
 
@@ -240,4 +289,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
